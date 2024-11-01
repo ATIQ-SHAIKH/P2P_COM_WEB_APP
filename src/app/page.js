@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -21,14 +21,14 @@ export default function Home() {
     };
 
     updateTime();
-    const timerId = setInterval(updateTime, 60000); // Update every minute
+    const timerId = setInterval(updateTime, 10000); // Update every minute
 
     return () => clearInterval(timerId);
   }, []);
 
   return (
-    <div className="font-[family-name:var(--font-geist-sans)]">
-      <nav className="bg-gray-800 p-4 flex items-center justify-between">
+    <div className="font-[family-name:var(--font-geist-sans)] h-screen"> {/* Set full height */}
+      <nav className="p-4 flex items-center justify-between">
         {/* Logo or Brand */}
         <div className="flex items-center">
           <Image
@@ -37,7 +37,7 @@ export default function Home() {
             width={40}
             height={40}
           />
-          <span className="ml-2 text-white text-lg font-bold">Memo Meet v1.0</span>
+          <span className="ml-2 text-white text-lg font-bold">Memo Meet</span>
         </div>
 
         {/* Clock and Date on the far right */}
@@ -47,71 +47,31 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="flex flex-col sm:flex-row gap-8 row-start-2 items-center sm:items-center px-4 mt-6">
-        <Image
-          src="/landing_page_image.svg"
-          alt="An image of two people in a meeting"
-          width={600}
-          height={600}
-        />
-        <div className="flex flex-col max-w-md text-center sm:text-left sm:ml-8">
-          <h1 className="text-3xl font-bold text-gray-800">Welcome to Memo Meet</h1>
+      <main className="flex flex-col sm:flex-row items-center justify-center h-fit pt-20"> {/* Adjust flexbox properties */}
+        {/* Image: 50% width */}
+        <div className="w-full sm:w-1/2 flex "> {/* Center image */}
+          <Image
+            src="/landing_page_image.svg"
+            alt="An image of two people in a meeting"
+            width={700}
+            height={500}
+            className="object-contain"
+          />
+        </div>
+
+        {/* Text content: 50% width */}
+        <div className="flex flex-col items-center sm:items-start w-full sm:w-1/2 max-w-md text-center sm:text-left sm:ml-8">
+          <h1 className="text-6xl font-bold text-gray-800">Welcome to Memo Meet :)</h1>
           <p className="mt-4 text-gray-600">
             Connect and collaborate with your team effortlessly. Create meetings, share ideas, and stay productive with Memo Meet's powerful features designed for seamless communication.
           </p>
-          <button className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
-            Create a meeting!
-          </button>
+          <div className="flex flex-col  sm:items-start w-full sm:w-1/2">
+              <button className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
+                Create a meeting!
+              </button>
+          </div>
         </div>
       </main>
-
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center mt-8">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
