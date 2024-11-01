@@ -61,7 +61,7 @@ export default function Home() {
 
         {/* Text content: 50% width */}
         <div className="flex flex-col items-center sm:items-start w-full sm:w-1/2 max-w-md text-center sm:text-left sm:ml-8">
-          <h1 className="text-6xl font-bold text-gray-800">Welcome to Memo Meet :)</h1>
+          <h1 className="text-4xl font-bold text-gray-800">Welcome to Memo Meet</h1>
           <p className="mt-4 text-gray-600">
             Connect and collaborate with your team effortlessly. Create meetings, share ideas, and stay productive with Memo Meet's powerful features designed for seamless communication.
           </p>
