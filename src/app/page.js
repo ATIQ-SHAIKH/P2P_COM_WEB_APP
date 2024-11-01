@@ -47,7 +47,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="flex flex-col sm:flex-row items-center justify-center h-fit pt-20"> {/* Adjust flexbox properties */}
+      <main className="flex flex-col sm:flex-row items-center justify-center h-fit"> {/* Adjust flexbox properties */}
         {/* Image: 50% width */}
         <div className="w-full sm:w-1/2 flex "> {/* Center image */}
           <Image
@@ -65,11 +65,9 @@ export default function Home() {
           <p className="mt-4 text-gray-600">
             Connect and collaborate with your team effortlessly. Create meetings, share ideas, and stay productive with Memo Meet's powerful features designed for seamless communication.
           </p>
-          <div className="flex flex-col  sm:items-start w-full sm:w-1/2">
               <button className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
                 Create a meeting!
               </button>
-          </div>
         </div>
       </main>
     </div>
