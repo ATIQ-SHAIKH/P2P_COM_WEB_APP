@@ -27,7 +27,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-[family-name:var(--font-geist-sans)] h-screen"> {/* Set full height */}
+    <div className="font-[family-name:var(--font-geist-sans)] h-screen bg-gradient-to-r from-cyan-500 to-blue-500"> {/* Set full height */}
       <nav className="p-4 flex items-center justify-between">
         {/* Logo or Brand */}
         <div className="flex items-center">
@@ -61,8 +61,8 @@ export default function Home() {
 
         {/* Text content: 50% width */}
         <div className="flex flex-col items-center sm:items-start w-full sm:w-1/2 max-w-md text-center sm:text-left sm:ml-8">
-          <h1 className="text-4xl font-bold text-gray-800">Welcome to Memo Meet</h1>
-          <p className="mt-4 text-gray-600">
+          <h1 className="text-4xl font-bold white">Welcome to Memo Meet!</h1>
+          <p className="mt-4 white">
             Connect and collaborate with your team effortlessly. Create meetings, share ideas, and stay productive with Memo Meet's powerful features designed for seamless communication.
           </p>
               <button className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
