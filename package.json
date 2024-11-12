@@ -23,6 +23,8 @@
     "tailwindcss": "^3.4.1"
   },
   "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
     "react-hook-form": "$react-hook-form"
   }
 }
