@@ -1,6 +1,6 @@
 export const checkSession = async () => {
     try {
-        const response = await fetch('http://localhost:9999/api/user/check/session', {
+        const response = await fetch(`${process.env.BACKEND_URL}/check/session`, {
             method: 'GET',
             credentials: 'include', // Ensure cookies are sent with the request
         });
@@ -32,7 +32,7 @@ export const fetchWithAuth = async (url) => {
   
   export const logout = async () => {
     try {
-        const response = await fetch('http://localhost:9999/api/user/logout', {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/user/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const fetchWithAuth = async (url) => {
 
 
 export const signin = async (data) => {
-    const response = await fetch('http://localhost:9999/api/user/signin', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/user/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
