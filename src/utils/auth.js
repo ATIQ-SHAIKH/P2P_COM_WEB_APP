@@ -32,7 +32,7 @@ export const fetchWithAuth = async (url) => {
   
   export const logout = async () => {
     try {
-        const response = await fetch(`${process.env.BACKEND_URL}/api/user/logout`, {
+        const response = await fetch(`${process.env.BACKEND_URL}/user/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const fetchWithAuth = async (url) => {
 
 
 export const signin = async (data) => {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/user/signin`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/user/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
