@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import VideoGrid from "../../components/VideoGrid";
 import ControlsBar from "../../components/ControlsBar";
+import SidePanel from "../../components/SidePanel";
 
 export default function Meet() {
   const [participants, setParticipants] = useState(["You"]);
@@ -12,6 +13,9 @@ export default function Meet() {
 
   const [micOn, setMicOn] = useState(true); // State for mic status
   const [videoOn, setVideoOn] = useState(true); // State for video status
+  const [isPanelOpen, setIsPanelOpen] = useState(false); // State for side panel
+  const [messages, setMessages] = useState([]); // State to hold messages
+  const [newMessage, setNewMessage] = useState(""); // State for current input
 
   // Capture user's video and audio
   useEffect(() => {
@@ -49,6 +53,23 @@ export default function Meet() {
     };
   }, []);
 
+  // Toggle side panel
+  const togglePanel = () => {
+    setIsPanelOpen((prev) => !prev);
+  };
+
+  // Handle sending a message
+  const sendMessage = () => {
+    if (newMessage.trim() === "") return;
+
+    const message = { sender: "You", text: newMessage, timestamp: new Date() };
+    setMessages((prev) => [...prev, message]);
+    setNewMessage(""); // Clear input
+
+    // Send message to peers via WebRTC signaling (placeholder logic)
+    console.log("Message sent:", message);
+  };
+
   // Function to toggle mic
   const toggleMic = () => {
     if (userStream) {
@@ -79,8 +100,18 @@ export default function Meet() {
           userStream={userStream}
           peerStreams={peerStreams}
         />
+         {isPanelOpen && (
+          <SidePanel
+            messages={messages}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            sendMessage={sendMessage}
+            closePanel={togglePanel}
+          />
+        )}
       </div>
-      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo} />
+      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo}  onTogglePanel={togglePanel}/>
     </div>
   );
 }
+
