@@ -13,7 +13,7 @@ export default function VideoGrid({ participants, userStream, peerStreams }) {
           >
             {stream ? (
               <video
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded"
                 autoPlay
                 muted={isUser} // Mute the user's video to avoid feedback
                 playsInline

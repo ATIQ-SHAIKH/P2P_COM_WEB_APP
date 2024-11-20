@@ -93,7 +93,7 @@ export default function Meet() {
   };
 
   return (
-    <div className="h-screen bg-gray-900 text-white flex flex-col">
+    <div className="h-screen bg-gray-900 text-white flex flex-col relative">
       <div className="flex-grow overflow-hidden">
         <VideoGrid
           participants={participants}
