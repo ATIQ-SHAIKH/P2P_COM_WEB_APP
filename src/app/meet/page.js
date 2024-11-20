@@ -5,10 +5,13 @@ import VideoGrid from "../../components/VideoGrid";
 import ControlsBar from "../../components/ControlsBar";
 
 export default function Meet() {
-  const [participants, setParticipants] = useState(["You"]); // Initially, only the user
+  const [participants, setParticipants] = useState(["You"]);
   const [userStream, setUserStream] = useState(null);
   const [peerStreams, setPeerStreams] = useState([]);
   const [localPeerConnection, setLocalPeerConnection] = useState(null);
+
+  const [micOn, setMicOn] = useState(true); // State for mic status
+  const [videoOn, setVideoOn] = useState(true); // State for video status
 
   // Capture user's video and audio
   useEffect(() => {
@@ -46,37 +49,30 @@ export default function Meet() {
     };
   }, []);
 
-  // Function to handle incoming peer stream (other participants)
-  const handleNewPeerStream = (peerStream) => {
-    setPeerStreams((prevStreams) => [...prevStreams, peerStream]);
-    setParticipants((prevParticipants) => [
-      ...prevParticipants,
-      `User ${peerStreams.length + 1}`,
-    ]);
+  // Function to toggle mic
+  const toggleMic = () => {
+    if (userStream) {
+      const audioTrack = userStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        setMicOn(audioTrack.enabled);
+      }
+    }
   };
 
-  // Listen for incoming peer connection and add streams
-  useEffect(() => {
-    if (localPeerConnection) {
-      localPeerConnection.ontrack = (event) => {
-        handleNewPeerStream(event.streams[0]);
-      };
+  // Function to toggle video
+  const toggleVideo = () => {
+    if (userStream) {
+      const videoTrack = userStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        setVideoOn(videoTrack.enabled);
+      }
     }
-  }, [localPeerConnection]);
-
-  // Once other users join, they will initiate a connection (This is simplified, adjust for your signaling)
-  useEffect(() => {
-    // For simplicity, we simulate new participant joining every 5 seconds
-    const interval = setInterval(() => {
-      handleNewPeerStream(new MediaStream()); // Add a fake stream for now
-    }, 5000); // Simulate a new user joining every 5 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+  };
 
   return (
     <div className="h-screen bg-gray-900 text-white flex flex-col">
-      {/* Displaying the user's video */}
       <div className="flex-grow overflow-hidden">
         <VideoGrid
           participants={participants}
@@ -84,7 +80,7 @@ export default function Meet() {
           peerStreams={peerStreams}
         />
       </div>
-      <ControlsBar />
+      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo} />
     </div>
   );
 }
