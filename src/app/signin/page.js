@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing eye icons
-import { signin } from "@/utils/auth";
+import { signin } from "@/utils/api";
 
 export default function SignIn() {
   const { register, handleSubmit, formState: { errors } } = useForm();

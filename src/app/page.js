@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import { checkSession } from "@/utils/auth";
+import { checkSession } from "@/utils/api";
 
 export default function Home() {
   const [time, setTime] = useState("");
@@ -87,7 +87,7 @@ export default function Home() {
               <div className="hidden sm:block h-12 w-px bg-gray-300"></div>
               <div className="flex w-full sm:w-auto gap-2">
                 <input type="text"
-                  className="w-full sm:w-72 h-12 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                  className="w-full sm:w-72 min-w-[250px] h-12 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Enter meeting code..."
                 ></input>
                 <button className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-500">

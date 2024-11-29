@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createMeetCode } from "@/utils/api";
 import VideoGrid from "../../components/VideoGrid";
 import ControlsBar from "../../components/ControlsBar";
 import SidePanel from "../../components/SidePanel";
@@ -41,6 +42,13 @@ export default function Meet() {
       .catch((error) => {
         console.error("Error accessing media devices.", error);
       });
+
+    const mee = localStorage.getItem("meet_code")
+    if (!mee) {
+      createMeetCode().then(meetCode => { 
+        localStorage.setItem('meet_code', meetCode);
+      });
+    }
 
     // Cleanup media stream when component unmounts
     return () => {
@@ -92,15 +100,17 @@ export default function Meet() {
     }
   };
 
+
   return (
     <div className="h-screen bg-gray-900 text-white flex flex-col relative">
+      <div>{localStorage.getItem("meet_code")}</div>
       <div className="flex-grow overflow-hidden">
         <VideoGrid
           participants={participants}
           userStream={userStream}
           peerStreams={peerStreams}
         />
-         {isPanelOpen && (
+        {isPanelOpen && (
           <SidePanel
             messages={messages}
             newMessage={newMessage}
@@ -110,7 +120,7 @@ export default function Meet() {
           />
         )}
       </div>
-      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo}  onTogglePanel={togglePanel}/>
+      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo} onTogglePanel={togglePanel} />
     </div>
   );
 }
