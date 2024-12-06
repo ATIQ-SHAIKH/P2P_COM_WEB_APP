@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import { checkSession } from "@/utils/api";
+import { checkSession, createMeetCode } from "@/utils/api";
 
 export default function Home() {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [meetCode, setMeetCode] = useState(""); // State to hold meeting code
 
   useEffect(() => {
     const updateTime = () => {
@@ -36,11 +37,18 @@ export default function Home() {
   const router = useRouter();
 
   const handleStartMeetingClick = () => {
-    router.push('/meet')
+    createMeetCode().then((meetCode) => {
+      console.log(meetCode)
+        router.push(`/meet/${meetCode}`); // Navigate to the meeting room with the meeting code
+    });
   }
 
   const handleSignInClick = () => {
     router.push('/signin');
+  };
+
+  const handleJoinClick = () => {
+        router.push(`/meet/${meetCode}`); // Navigate to the meeting room with the meeting code
   };
 
   return (
@@ -89,8 +97,9 @@ export default function Home() {
                 <input type="text"
                   className="w-full sm:w-72 min-w-[250px] h-12 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Enter meeting code..."
+                  onChange={(e) => setMeetCode(e.target.value)} // Update state on input change
                 ></input>
-                <button className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-500">
+                <button className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-500" onClick={handleJoinClick}>
                   Join!
                 </button>
               </div>
