@@ -172,6 +172,24 @@ export default function Meet() {
     }
   };
 
+  // Handle sending a message
+  const sendMessage = () => {
+    if (newMessage.trim() === "") return;
+
+    const message = { sender: "You", text: newMessage, timestamp: new Date() };
+    setMessages((prev) => [...prev, message]);
+    setNewMessage(""); // Clear input
+
+    // Send message to peers via WebRTC signaling (placeholder logic)
+    console.log("Message sent:", message);
+  };
+
+  // Toggle side panel
+  const togglePanel = () => {
+    setIsPanelOpen((prev) => !prev);
+    console.log(isPanelOpen)
+  };
+
   return (
     <div className="h-screen bg-gray-900 text-white flex flex-col relative">
       <div>{meetCode}</div>
@@ -182,12 +200,12 @@ export default function Meet() {
             messages={messages}
             newMessage={newMessage}
             setNewMessage={setNewMessage}
-            sendMessage={() => {}}
-            closePanel={() => {}}
+            sendMessage={sendMessage}
+            closePanel={togglePanel}
           />
         )}
       </div>
-      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo} />
+      <ControlsBar micOn={micOn} videoOn={videoOn} onToggleMic={toggleMic} onToggleVideo={toggleVideo} onTogglePanel={togglePanel} />
     </div>
   );
 }
