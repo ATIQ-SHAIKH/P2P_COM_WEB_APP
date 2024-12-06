@@ -1,5 +1,9 @@
+import { useRef } from "react";
+
 export default function SidePanel({ messages, newMessage, setNewMessage, sendMessage, closePanel }) {
-    return (
+  const inputRef = useRef();
+  
+  return (
       <div className="absolute right-0 top-0 h-[calc(100%-4rem)] w-80 bg-gray-800 text-white shadow-lg flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center bg-gray-900 p-4">
@@ -27,6 +31,7 @@ export default function SidePanel({ messages, newMessage, setNewMessage, sendMes
         <div className="p-4 bg-gray-900 flex space-x-2">
           <input
             type="text"
+            ref={inputRef}  
             className="flex-grow p-2 rounded bg-gray-700 text-white focus:outline-none"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
