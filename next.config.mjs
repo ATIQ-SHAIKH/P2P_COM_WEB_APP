@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        BACKEND_URL: "http://localhost:9999/api"
+        BACKEND_URL: "https://memomeet-be.onrender.com/api"
     }
 };
 
