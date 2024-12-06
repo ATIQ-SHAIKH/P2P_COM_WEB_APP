@@ -17,7 +17,7 @@ export default function SignIn() {
     const response = await signin(data)
     console.log(response)
     if (response.msg === "Logged in!") {
-      router.push("/meet");
+      router.push("/");
       toast.success("Signed in successfully!");
     } else {
       toast.error("Invalid email or password");
