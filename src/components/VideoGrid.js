@@ -1,4 +1,6 @@
-export default function VideoGrid({ participants, userStream, peerStreams }) {
+import React from "react";
+
+export default React.memo(({ participants, userStream, peerStreams }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 h-full">
       {/* Display videos for all participants */}
@@ -34,4 +36,4 @@ export default function VideoGrid({ participants, userStream, peerStreams }) {
       })}
     </div>
   );
-}
+})
