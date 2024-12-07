@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import VideoGrid from "../../../components/VideoGrid";
 import ControlsBar from "../../../components/ControlsBar";
@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export default function Meet() {
   const pathname = usePathname();
 
-  const [participants, setParticipants] = useState(["You"]);
+  const [participants, setParticipants] = useState([]);
   const [userStream, setUserStream] = useState(null);
   const [peerConnections, setPeerConnections] = useState({});
   const [peerStreams, setPeerStreams] = useState([]);
@@ -21,6 +21,11 @@ export default function Meet() {
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [meetCode, setMeetCode] = useState(null);
+
+  const peerConnectionsRef = useRef({});
+  useEffect(() => {
+    peerConnectionsRef.current = peerConnections;
+  }, [peerConnections]);
 
   // Extract meetCode from pathname
   useEffect(() => {
@@ -73,19 +78,22 @@ export default function Meet() {
 
         // Handle incoming offer
         newSocket.on("offer", async ({ offer, sender }) => {
-          const peerConnection = createPeerConnection(newSocket, sender);
-          await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+          setPeerConnections((prev) => {
+            if (!prev[sender]) {
+              const peerConnection = createPeerConnection(newSocket, sender);
+              peerConnection.setRemoteDescription(new RTCSessionDescription(offer)).then(async () => {
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
 
-          const answer = await peerConnection.createAnswer();
-          await peerConnection.setLocalDescription(answer);
+                newSocket.emit("answer", { meetCode, answer, recipient: sender });
+              });
 
-          newSocket.emit("answer", { meetCode, answer, recipient: sender });
-
-          setPeerConnections((prev) => ({
-            ...prev,
-            [sender]: peerConnection,
-          }));
+              return { ...prev, [sender]: peerConnection };
+            }
+            return prev;
+          });
         });
+
 
         // Handle incoming answer
         newSocket.on("answer", async ({ answer, sender }) => {
@@ -105,26 +113,25 @@ export default function Meet() {
 
         // Handle participant leaving
         newSocket.on("participant-left", ({ participantId }) => {
-          if (peerConnections[participantId]) {
-            peerConnections[participantId].close();
-            setPeerConnections((prev) => {
-              const updatedConnections = { ...prev };
-              delete updatedConnections[participantId];
-              return updatedConnections;
-            });
+          setPeerConnections((prev) => {
+            const { [participantId]: leavingConnection, ...remainingConnections } = prev;
+            leavingConnection?.close();
+            return remainingConnections;
+          });
 
-            // Remove participant from the list
-            setParticipants((prev) => prev.filter((p) => p !== `User: ${participantId}`));
-          }
+          setParticipants((prev) => prev.filter((p) => !p.includes(participantId)));
+          setPeerStreams((prev) => prev.filter((stream) => stream.participantId !== participantId)); // Assuming you store `participantId` in the stream
         });
+
       })
       .catch((error) => {
         console.error("Error accessing media devices.", error);
       });
 
+    // Cleanup logic
     return () => {
       if (userStream) userStream.getTracks().forEach((track) => track.stop());
-      Object.values(peerConnections).forEach((peerConnection) => peerConnection.close());
+      Object.values(peerConnectionsRef.current).forEach((peerConnection) => peerConnection.close());
       newSocket.close();
     };
   }, [meetCode]);
@@ -137,17 +144,20 @@ export default function Meet() {
         socket.emit("candidate", { meetCode, candidate: event.candidate, recipient: participantId });
       }
     };
+    
+    peerConnection.onicecandidateerror = (event) => {
+      console.error("ICE candidate error:", event.errorText);
+    };
+    
 
     peerConnection.ontrack = (event) => {
       const stream = event.streams[0];
-
-      // Add the stream to peer streams and update participants
-      setPeerStreams((prev) => [...prev, stream]);
-      setParticipants((prev) => {
-        const participantName = `User: ${participantId}`;
-        return prev.includes(participantName) ? prev : [...prev, participantName];
+      setPeerStreams((prev) => {
+        if (prev.find((s) => s.id === stream.id)) return prev; // Avoid duplicates
+        return [...prev, stream];
       });
     };
+
 
     return peerConnection;
   };
