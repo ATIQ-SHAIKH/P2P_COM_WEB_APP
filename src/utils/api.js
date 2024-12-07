@@ -1,6 +1,6 @@
 export const checkSession = async () => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/check/session`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/user/check/session`, {
       method: 'GET',
       credentials: 'include', // Ensure cookies are sent with the request
     });
