@@ -36,7 +36,7 @@ export default function Meet() {
 
   // Initialize socket connection and media stream
   useEffect(() => {
-    const newSocket = io("http://localhost:9999");
+    const newSocket = io(`${process.env.BACKEND_URL}`);
     setSocket(newSocket);
 
     navigator.mediaDevices
@@ -52,6 +52,7 @@ export default function Meet() {
 
         // Handle new participant
         newSocket.on("new-participant", async ({ participantId }) => {
+          console.log("new_participant")
           const peerConnection = createPeerConnection(newSocket, participantId);
 
           stream.getTracks().forEach((track) => {
@@ -151,6 +152,7 @@ export default function Meet() {
     
 
     peerConnection.ontrack = (event) => {
+      console.log(event)
       const stream = event.streams[0];
       setPeerStreams((prev) => {
         if (prev.find((s) => s.id === stream.id)) return prev; // Avoid duplicates
