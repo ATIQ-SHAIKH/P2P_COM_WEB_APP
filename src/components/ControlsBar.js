@@ -8,7 +8,7 @@ import {
   FaVideoSlash,
 } from "react-icons/fa";
 
-export default function ControlsBar({ micOn, videoOn, onToggleMic, onToggleVideo, onTogglePanel }) {
+export default function ControlsBar({ micOn, videoOn, onToggleMic, onToggleVideo, onTogglePanel, onEndCall }) {
   return (
     <div className="bg-gray-900 p-4 flex justify-center space-x-6 fixed bottom-0 w-full z-50">
       <button className="bg-gray-700 p-3 rounded-full hover:bg-gray-600" onClick={onToggleMic}>
@@ -18,7 +18,7 @@ export default function ControlsBar({ micOn, videoOn, onToggleMic, onToggleVideo
         {videoOn ? <FaVideo className="text-white" /> : <FaVideoSlash className="text-white" />}
       </button>
       <button className="bg-red-700 p-3 rounded-full hover:bg-red-600">
-        <FaPhoneSlash className="text-white" />
+        <FaPhoneSlash onClick={onEndCall} className="text-white" />
       </button>
       <button className="bg-gray-700 p-3 rounded-full hover:bg-gray-600" onClick={onTogglePanel}>
         <FaComments className="text-white" />
