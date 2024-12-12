@@ -40,7 +40,7 @@ function VideoGrid({ participants, userStream, peerStreams }) {
             className="w-full h-full object-cover"
             ref={(videoElement) => {
               if (videoElement) {
-                videoElement.srcObject = stream;
+                videoElement.srcObject = stream.getVideoTracks()[0];;
               }
             }}
           />
