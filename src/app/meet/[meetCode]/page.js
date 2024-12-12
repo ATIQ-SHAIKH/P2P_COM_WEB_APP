@@ -28,7 +28,7 @@ const Meet = () => {
     const [newMessage, setNewMessage] = useState("");
 
     useEffect(() => {
-        socketRef.current = io("http://localhost:9999");
+        socketRef.current = io(`${process.env.BACKEND_URL}`);
         // First we join a room
         socketRef.current.emit('join', roomId);
 
