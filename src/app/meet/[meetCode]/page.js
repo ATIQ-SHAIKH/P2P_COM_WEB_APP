@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import useSocket from '@/app/hooks/socket';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { usePathname , useRouter} from 'next/navigation';
+// import useSocket from '@/app/hooks/socket';
 import { io } from 'socket.io-client';
 import ControlsBar from '@/components/ControlsBar';
 import SidePanel from '@/components/SidePanel';
 
 const Meet = () => {
-    useSocket();
+    // useSocket();
+    const router = useRouter();
 
     const pathname = usePathname();
     const pathParts = pathname.split("/");
@@ -27,8 +28,8 @@ const Meet = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
 
-    useEffect(() => {
-        socketRef.current = io(`${process.env.BACKEND_URL}`);
+    useEffect(useCallback(() => {
+        socketRef.current = io(`${process.env.WEBSOCKET_URL}`);
         // First we join a room
         socketRef.current.emit('join', roomId);
 
@@ -55,7 +56,7 @@ const Meet = () => {
 
         // clear up after
         return () => socketRef.current.disconnect();
-    }, [roomId]);
+    }, [roomId]));
 
     const handleRoomCreated = () => {
         hostRef.current = true;
@@ -278,7 +279,7 @@ const Meet = () => {
                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-sm p-2">
                     You
                 </div>
-                <video autoPlay muted ref={peerVideoRef} style={{ width: '300px', border: '1px solid black' }} />
+                <video autoPlay ref={peerVideoRef} style={{ width: '300px', border: '1px solid black' }} />
                 {isPanelOpen && (
                     <SidePanel
                         messages={messages}
