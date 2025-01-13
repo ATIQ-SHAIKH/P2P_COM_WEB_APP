@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: false,
     env: {
-        BACKEND_URL: "https://memomeet-be.onrender.com/api",
-        WEBSOCKET_URL: "https://memomeet-be.onrender.com",
+        BACKEND_URL: "http://localhost:9999/api",
+        WEBSOCKET_URL: "http://localhost:9999",
     }
 };
 
