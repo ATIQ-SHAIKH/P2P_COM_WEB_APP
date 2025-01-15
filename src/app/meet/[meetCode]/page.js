@@ -30,6 +30,14 @@ const Meet = () => {
     const [newMessage, setNewMessage] = useState("");
 
     useEffect(() => {
+        const handleBeforeUnload = () => {
+            console.log('Tab is closing, leaving room.');
+            leaveRoom();
+        };
+
+        // Add listener for tab close
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
         console.log(roomId, 'roomId')
         socketRef.current = io(`${process.env.WEBSOCKET_URL}`);
 
@@ -47,7 +55,8 @@ const Meet = () => {
         // clear up after
         return () => {
             console.log("leaveRoom")
-            leaveRoom()
+            leaveRoom();
+            window.removeEventListener('beforeunload', handleBeforeUnload);
         }
     }, [roomId]);
 
