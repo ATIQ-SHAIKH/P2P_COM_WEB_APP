@@ -10,7 +10,6 @@ import { signin } from "@/utils/api";
 import Loader from "@/components/Loader";
 
 export default function SignIn() {
-  const [loading, setLoading] = useState(true)
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
   const router = useRouter();
@@ -19,7 +18,6 @@ export default function SignIn() {
     const response = await signin(data)
     console.log(response)
     if (response.msg === "Logged in!") {
-      setLoading(true)
       router.push("/");
       toast.success("Signed in successfully!");
     } else {
