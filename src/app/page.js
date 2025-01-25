@@ -90,7 +90,7 @@ export default function Home() {
               <p className="mt-4 text-white block">
                 Connect and collaborate with your team effortlessly. Create meetings, share ideas, and stay productive with Memo Meet's powerful features designed for seamless communication.
               </p>
-              {loggedIn ? (
+              {/* {loggedIn ? ( */}
                 <div className="w-full flex flex-col sm:flex-row items-center text-center sm:items-start gap-4">
                   <button
                     className="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-500"
@@ -112,14 +112,14 @@ export default function Home() {
                   </div>
                 </div>
 
-              ) : (
+              {/* ) : (
                 <button
                   className="mt-6 bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-500"
                   onClick={handleSignInClick}
                 >
                   Get Started!
                 </button>
-              )}
+              )} */}
             </div>
           </main>
         </>
